@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Head content -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <style>
+    /* Add custom styles */
+    .content {
+      padding-top: 100px;
+      margin-left: 250px;
+      margin-right: auto;
+      max-width: 70%;
+    }
+    .form-group {
+      margin-bottom: 10px;
+    }
+    .table-container {
+      height: 400px; /* Adjust the height as needed */
+      overflow-y: scroll;
+    }
+    #mahasiswaTable {
+      max-height: 100%;
+    }
+  </style>
+</head> 
+
+<body>
+    <%- include('partials/navbar') %>
+    <%- include('partials/sidebar') %>
+  <div class="content">
+    <h1>Tambah Beasiswa</h1>
+    <div class="form-group">
+      <label for="namaBeasiswa">Nama Beasiswa</label>
+      <input type="text" class="form-control" id="namaBeasiswa" name="namaBeasiswa" placeholder="Masukkan Nama Beasiswa">
+    </div>
+
+    <div class="form-group">
+      <label for="deskripsiBeasiswa">Deskripsi Beasiswa</label>
+      <textarea class="form-control" id="deskripsiBeasiswa" name="deskripsiBeasiswa" placeholder="Masukkan Deskripsi Beasiswa"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="rentangWaktu">Rentang Waktu Beasiswa</label>
+      <div class="row">
+        <div class="col">
+          <input type="date" class="form-control" id="rentangWaktuMin" name="rentangWaktuMin" placeholder="Mulai">
+        </div>
+        <div class="col-auto">To</div>
+        <div class="col">
+          <input type="date" class="form-control" id="rentangWaktuMax" name="rentangWaktuMax" placeholder="Selesai">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="filterIPK">IPK</label>
+      <div class="row">
+        <div class="col">
+          <input type="number" class="form-control" id="filterIPKMin" name="filterIPKMin" placeholder="IPK Minimum">
+        </div>
+        <div class="col-auto">To</div>
+        <div class="col">
+          <input type="number" class="form-control" id="filterIPKMax" name="filterIPKMax" placeholder="IPK Maximum">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="filterSemester">Semester</label>
+      <div class="row">
+        <div class="col">
+          <input type="number" class="form-control" id="filterSemesterMin" name="filterSemesterMin" placeholder="Semester Minimum">
+        </div>
+        <div class="col-auto">To</div>
+        <div class="col">
+          <input type="number" class="form-control" id="filterSemesterMax" name="filterSemesterMax" placeholder="Semester Maximum">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="filterEPRT">EPRT</label>
+      <div class="row">
+        <div class="col">
+          <input type="number" class="form-control" id="filterEPRTMin" name="filterEPRTMin" placeholder="EPRT Minimum">
+        </div>
+        <div class="col-auto">To</div>
+        <div class="col">
+          <input type="number" class="form-control" id="filterEPRTMax" name="filterEPRTMax" placeholder="EPRT Maximum">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="filterPoinTAK">Poin TAK</label>
+      <div class="row">
+        <div class="col">
+          <input type="number" class="form-control" id="filterPoinTAKMin" name="filterPoinTAKMin" placeholder="Poin TAK Minimum">
+        </div>
+        <div class="col-auto">To</div>
+        <div class="col">
+          <input type="number" class="form-control" id="filterPoinTAKMax" name="filterPoinTAKMax" placeholder="Poin TAK Maximum">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button class="btn btn-primary" onclick="applyFilter()">Filter</button>
+      <button class="btn btn-secondary" onclick="clearTable()">Clear Table</button>
+    </div>
+  
+    <div class="table-container">
+      <table class="table" id="mahasiswaTable">
+        <thead>
+          <tr>
+            <th>Nama</th>
+            <th>IPK</th>
+            <th>Semester</th>
+            <th>EPRT</th>
+            <th>Poin TAK</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody id="mahasiswaData">
+          <% for (let i = 0; i < mahasiswa.length; i++) { %>
+            <tr>
+              <td><%= mahasiswa[i].nama %></td>
+              <td><%= mahasiswa[i].ipk %></td>
+              <td><%= mahasiswa[i].semester %></td>
+              <td><%= mahasiswa[i].eprt %></td>
+              <td><%= mahasiswa[i].poinTAK %></td>
+              <td><%= mahasiswa[i].email %></td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <%- include('partials/footer') %>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script>
+    const originalData = JSON.parse('<%- JSON.stringify(mahasiswa) %>');
+    let filteredData = originalData;
+
+    function applyFilter() {
+      const filterIPKMin = parseFloat(document.getElementById("filterIPKMin").value);
+      const filterIPKMax = parseFloat(document.getElementById("filterIPKMax").value);
+      const filterSemesterMin = parseInt(document.getElementById("filterSemesterMin").value);
+      const filterSemesterMax = parseInt(document.getElementById("filterSemesterMax").value);
+      const filterEPRTMin = parseInt(document.getElementById("filterEPRTMin").value);
+      const filterEPRTMax = parseInt(document.getElementById("filterEPRTMax").value);
+      const filterPoinTAKMin = parseInt(document.getElementById("filterPoinTAKMin").value);
+      const filterPoinTAKMax = parseInt(document.getElementById("filterPoinTAKMax").value);
+
+      filteredData = originalData.filter(function (mhs) {
+        return (
+          (isNaN(filterIPKMin) || mhs.ipk >= filterIPKMin) &&
+          (isNaN(filterIPKMax) || mhs.ipk <= filterIPKMax) &&
+          (isNaN(filterSemesterMin) || mhs.semester >= filterSemesterMin) &&
+          (isNaN(filterSemesterMax) || mhs.semester <= filterSemesterMax) &&
+          (isNaN(filterEPRTMin) || mhs.eprt >= filterEPRTMin) &&
+          (isNaN(filterEPRTMax) || mhs.eprt <= filterEPRTMax) &&
+          (isNaN(filterPoinTAKMin) || mhs.poinTAK >= filterPoinTAKMin) &&
+          (isNaN(filterPoinTAKMax) || mhs.poinTAK <= filterPoinTAKMax)
+        );
+      });
+
+      renderTable(filteredData);
+    }
+
+    function renderTable(data) {
+      const tableBody = document.getElementById("mahasiswaData");
+      tableBody.innerHTML = "";
+
+      data.forEach(function (mhs) {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${mhs.nama}</td>
+          <td>${mhs.ipk}</td>
+          <td>${mhs.semester}</td>
+          <td>${mhs.eprt}</td>
+          <td>${mhs.poinTAK}</td>
+          <td>${mhs.email}</td>
+        `;
+
+        tableBody.appendChild(row);
+      });
+    }
+
+    function clearTable() {
+      renderTable(originalData);
+    }
+    
+  </script>
+</body>
+</html>

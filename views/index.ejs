@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Auth System</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #fff;
+      color: #000;
+    }
+
+    .container-left {
+      background-color: #623B3B;
+      color: #fff;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container-right {
+      background-color: #fff;
+      color: #000;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column; /* Menambahkan arah tata letak kolom */
+    }
+
+    /* CSS untuk mengatur lebar input */
+    .custom-input {
+      width: 400px; /* Menentukan lebar input yang diinginkan */
+    }
+
+    /* CSS untuk mengatur lebar div selamat datang */
+    .welcome-div {
+      width: 100%; /* Menentukan lebar div selamat datang */
+      text-align: center; /* Mengatur penempatan teks di tengah */
+      margin-bottom: 20px; /* Menambahkan jarak bawah */
+    }
+    .title-div {
+      width: 100%; /* Menentukan lebar div selamat datang */
+      text-align: center; /* Mengatur penempatan teks di tengah */
+      margin-bottom: 20px; /* Menambahkan jarak bawah */
+    }
+
+    /* CSS untuk mengatur penempatan tombol di tengah */
+    .button-center {
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-6 container-left">
+        <div class="welcome-div">
+          <img src="assets/img/Logo Telkom University.png" alt="Logo Tel-U" style="width: 200px; height: auto;">
+          <h1>Selamat datang di</h1>
+          <h1>SI EMBE</h1>
+          <p>Sistem Beasiswa Mahasiswa</p>
+        </div>
+      </div>
+      <div class="col-md-6 container-right">
+        <div class="title-div">
+          <h2>Account Login</h2>
+        </div>
+        <form action="/login" method="POST">
+          <div class="form-group">
+            <input type="text" class="form-control custom-input" id="username" name="username" placeholder="Masukkan username">
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control custom-input" id="password" name="password" placeholder="Masukkan password">
+          </div>
+          <div class="button-center"> <!-- Menambahkan kelas CSS untuk tombol -->
+            <button type="submit" class="btn btn-primary">Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
